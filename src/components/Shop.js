@@ -8,43 +8,6 @@ function Shop() {
   const expenseAmountRef = useRef();
   const expenseCategoryRef = useRef();
 
-  // function addExpense(event) {
-  //   event.preventDefault();
-  //   const name = expenseNameRef.current.value;
-  //   const amount = expenseAmountRef.current.value;
-  //   const category = expenseCategoryRef.current.value;
-  //   if (name === '' || amount === '' || category === 'Select a category')
-  //     alert('fill all values')
-  //   setExpenses((prevExpenses) => {
-  //     return [...prevExpenses, { name, amount, category }];
-  //   });
-  //   expenseNameRef.current.value = null;
-  //   expenseAmountRef.current.value = null;
-  //   expenseCategoryRef.current.value = 'Select a category';
-  // }
-
-  // function displayExpenses() {
-  //   return expenses.map((expense, index) => {
-  //     return (
-  //       <tr key={index}>
-  //         <th scope="row">{index + 1}</th>
-  //         <td>{expense.name}</td>
-  //         <td>{`₹ ${expense.amount}`}</td>
-  //         <td>{expense.category}</td>
-  //         <td>
-  //           <button
-  //             type="button"
-  //             className="btn btn-danger"
-  //             onClick={() => deleteExpense(expense.id)}
-  //           >
-  //             Delete
-  //           </button>
-  //         </td>
-  //       </tr>
-  //     );
-  //   });
-  // }
-
   const url =
     'https://react-expense-tracker-1a568-default-rtdb.firebaseio.com/expenses.json';
 

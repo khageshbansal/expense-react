@@ -4,7 +4,6 @@ import Shop from './components/Shop';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
-import ProductDetails from './pages/ProductDetails';
 import ContactUs from './pages/ContactUs';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
@@ -47,10 +46,7 @@ export default function App() {
 
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/shop" element={<Shop />} />
-                <Route
-                  path="/productDetails/:id"
-                  element={<ProductDetails />}
-                />
+               
 
                 <Route path="*" element={<Home />} />
               </Routes>
