@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import firebase from './firebase';
 
 function Shop() {
+  let content = <p>Loading expenses...</p>;
   const [expenses, setExpenses] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const expenseNameRef = useRef();
   const expenseAmountRef = useRef();
   const expenseCategoryRef = useRef();
@@ -44,20 +45,14 @@ function Shop() {
   //   });
   // }
 
+  const url =
+    'https://react-expense-tracker-1a568-default-rtdb.firebaseio.com/expenses.json';
 
   useEffect(() => {
-    const expensesRef = firebase.database().ref('expenses');
-    expensesRef.on('value', (snapshot) => {
-      const expenses = snapshot.val();
-      const expensesList = [];
-      for (let id in expenses) {
-        expensesList.push({ id, ...expenses[id] });
-      }
-      setExpenses(expensesList);
-    });
+    fetchExpenses();
   }, []);
 
-  function addExpense(event) {
+  async function addExpense(event) {
     event.preventDefault();
     const name = expenseNameRef.current.value;
     const amount = expenseAmountRef.current.value;
@@ -68,39 +63,71 @@ function Shop() {
     }
 
     const expense = { name, amount, category };
-    firebase.database().ref('expenses').push(expense);
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(expense),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.json();
+      setExpenses((prevExpenses) => [
+        ...prevExpenses,
+        { id: data.name, ...expense },
+      ]);
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
 
     expenseNameRef.current.value = '';
     expenseAmountRef.current.value = '';
     expenseCategoryRef.current.value = 'Select a category';
   }
 
-  function deleteExpense(id) {
-    firebase.database().ref(`expenses/${id}`).remove();
-  }
-
-  function displayExpenses() {
-    return expenses.map((expense, index) => {
-      return (
-        <tr key={expense.id}>
-          <th scope="row">{index + 1}</th>
-          <td>{expense.name}</td>
-          <td>{`₹ ${expense.amount}`}</td>
-          <td>{expense.category}</td>
-          <td>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={() => deleteExpense(expense.id)}
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
+  async function deleteExpense(id) {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `https://react-expense-tracker-1a568-default-rtdb.firebaseio.com/expenses/${id}.json`,
+        {
+          method: 'DELETE',
+        }
       );
-    });
+      if (response.ok) {
+        setExpenses((prevExpenses) =>
+          prevExpenses.filter((expense) => expense.id !== id)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
   }
 
+  async function fetchExpenses() {
+    try {
+      setIsLoading(true);
+      const response = await fetch(url);
+      const data = await response.json();
+      const loadedExpenses = [];
+
+      for (const key in data) {
+        loadedExpenses.push({
+          id: key,
+          name: data[key].name,
+          amount: data[key].amount,
+          category: data[key].category,
+        });
+      }
+
+      setExpenses(loadedExpenses);
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
+  }
 
   return (
     <div className="container">
@@ -162,7 +189,29 @@ function Shop() {
                 <th scope="col">Category</th>
               </tr>
             </thead>
-            <tbody>{displayExpenses()}</tbody>
+            <tbody>
+              {isLoading && content}
+              {!isLoading &&
+                expenses.map((expense, index) => {
+                  return (
+                    <tr key={expense.id}>
+                      <th scope="row">{index + 1}</th>
+                      <td>{expense.name}</td>
+                      <td>{`₹ ${expense.amount}`}</td>
+                      <td>{expense.category}</td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => deleteExpense(expense.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
           </table>
         </div>
       </div>
