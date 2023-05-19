@@ -15,6 +15,11 @@ import {
   AuthProvider,
   MyContext as AuthContext,
 } from './components/AuthContext';
+
+
+import { Provider } from 'react-redux';
+import store from './redux/store';
+
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 export default function App() {
@@ -23,6 +28,7 @@ export default function App() {
 
   return (
     <>
+     <Provider store={store}>
       <AuthProvider>
         <ContextProvider>
           <main>
@@ -46,7 +52,6 @@ export default function App() {
 
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/shop" element={<Shop />} />
-               
 
                 <Route path="*" element={<Home />} />
               </Routes>
@@ -56,6 +61,7 @@ export default function App() {
           <Footer />
         </ContextProvider>
       </AuthProvider>
+      </Provider>
     </>
   );
 }

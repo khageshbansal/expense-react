@@ -55,7 +55,7 @@ export default function Login(props) {
 
       <div class="container">
         <div class="d-flex justify-content-center align-items-center vh-100">
-          <form class="w-25" onclick="login(event)">
+          <form class="w-25">
             <div class="form-group">
               <label for="email">Email address</label>
               <input

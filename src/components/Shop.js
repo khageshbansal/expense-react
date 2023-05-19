@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addExpense, deleteExpense, updateExpense } from '../redux/actions';
+
 
 function Shop() {
   let content = <p>Loading expenses...</p>;
@@ -7,6 +10,31 @@ function Shop() {
   const expenseNameRef = useRef();
   const expenseAmountRef = useRef();
   const expenseCategoryRef = useRef();
+
+
+
+
+
+  // expenses = useSelector(state => state.expenses);
+  const dispatch = useDispatch();
+
+
+  
+  // const handleAddExpense = expense => {
+  //   dispatch(addExpense(expense));
+  // };
+
+  // const handleDeleteExpense = id => {
+  //   dispatch(deleteExpense(id));
+  // };
+
+  // const handleUpdateExpense = (id, expense) => {
+  //   dispatch(updateExpense(id, expense));
+  // };
+
+
+
+
 
   const url =
     'https://react-expense-tracker-1a568-default-rtdb.firebaseio.com/expenses.json';
@@ -17,6 +45,7 @@ function Shop() {
 
   async function addExpense(event) {
     event.preventDefault();
+    dispatch(addExpense(expense));
     const name = expenseNameRef.current.value;
     const amount = expenseAmountRef.current.value;
     const category = expenseCategoryRef.current.value;
@@ -50,6 +79,7 @@ function Shop() {
   }
 
   async function deleteExpense(id) {
+    dispatch(deleteExpense(id));
     try {
       setIsLoading(true);
       const response = await fetch(
