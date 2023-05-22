@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addExpense, deleteExpense, updateExpense } from '../redux/actions';
+import { setExpenses,addExpense, deleteExpense, updateExpense } from '../redux/actions';
 
 
 function Shop() {
   let content = <p>Loading expenses...</p>;
-  const [expenses, setExpenses] = useState([]);
+  // const [expenses, setExpenses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const expenseNameRef = useRef();
   const expenseAmountRef = useRef();
@@ -15,7 +15,7 @@ function Shop() {
 
 
 
-  // expenses = useSelector(state => state.expenses);
+  let expenses = useSelector(state => state.expenses);
   const dispatch = useDispatch();
 
 
@@ -45,7 +45,7 @@ function Shop() {
 
   async function addExpense(event) {
     event.preventDefault();
-    dispatch(addExpense(expense));
+    
     const name = expenseNameRef.current.value;
     const amount = expenseAmountRef.current.value;
     const category = expenseCategoryRef.current.value;
@@ -64,10 +64,12 @@ function Shop() {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.json();
-      setExpenses((prevExpenses) => [
-        ...prevExpenses,
-        { id: data.name, ...expense },
-      ]);
+      // setExpenses((prevExpenses) => [
+      //   ...prevExpenses,
+      //   { id: data.name, ...expense },
+      // ]);
+      dispatch(addExpense({ id: data.name, ...expense }));
+
     } catch (error) {
       console.error(error);
     }
@@ -79,7 +81,7 @@ function Shop() {
   }
 
   async function deleteExpense(id) {
-    dispatch(deleteExpense(id));
+   
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -89,9 +91,7 @@ function Shop() {
         }
       );
       if (response.ok) {
-        setExpenses((prevExpenses) =>
-          prevExpenses.filter((expense) => expense.id !== id)
-        );
+        dispatch(deleteExpense(id));
       }
     } catch (error) {
       console.error(error);
@@ -115,7 +115,7 @@ function Shop() {
         });
       }
 
-      setExpenses(loadedExpenses);
+      dispatch(setExpenses(loadedExpenses));
     } catch (error) {
       console.error(error);
     }
