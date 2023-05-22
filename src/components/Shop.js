@@ -5,7 +5,6 @@ import { setExpenses,addExpense, deleteExpense, updateExpense } from '../redux/a
 
 function Shop() {
   let content = <p>Loading expenses...</p>;
-  // const [expenses, setExpenses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const expenseNameRef = useRef();
   const expenseAmountRef = useRef();
@@ -20,18 +19,6 @@ function Shop() {
 
 
   
-  // const handleAddExpense = expense => {
-  //   dispatch(addExpense(expense));
-  // };
-
-  // const handleDeleteExpense = id => {
-  //   dispatch(deleteExpense(id));
-  // };
-
-  // const handleUpdateExpense = (id, expense) => {
-  //   dispatch(updateExpense(id, expense));
-  // };
-
 
 
 
@@ -114,6 +101,7 @@ function Shop() {
           category: data[key].category,
         });
       }
+      console.log(loadedExpenses)
 
       dispatch(setExpenses(loadedExpenses));
     } catch (error) {
