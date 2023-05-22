@@ -50,13 +50,9 @@ function Shop() {
         body: JSON.stringify(expense),
         headers: { 'Content-Type': 'application/json' },
       });
-      const data = await response.json();
-      // setExpenses((prevExpenses) => [
-      //   ...prevExpenses,
-      //   { id: data.name, ...expense },
-      // ]);
-      dispatch(addExpense({ id: data.name, ...expense }));
-
+      // const data = await response.json();
+      // dispatch(addExpense({ id: data.name, ...expense }));
+      fetchExpenses()
     } catch (error) {
       console.error(error);
     }
@@ -77,8 +73,11 @@ function Shop() {
           method: 'DELETE',
         }
       );
+
+      
       if (response.ok) {
-        dispatch(deleteExpense(id));
+        fetchExpenses()
+        // dispatch(deleteExpense(id));
       }
     } catch (error) {
       console.error(error);
@@ -101,7 +100,7 @@ function Shop() {
           category: data[key].category,
         });
       }
-      console.log(loadedExpenses)
+      // console.log(loadedExpenses)
 
       dispatch(setExpenses(loadedExpenses));
     } catch (error) {
