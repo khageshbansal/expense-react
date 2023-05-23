@@ -155,6 +155,14 @@ function Shop() {
         </div>
         <div className="col-md-6">
           <h2>Expenses</h2>
+
+          {isPremium && (<button
+                onClick={}
+                type="button"
+                class="btn btn-primary">
+                Download Expenses
+              </button>)}
+
           <table className="table" className={isPremium &&"table table-dark"}>
             <thead>
               <tr>

@@ -40,16 +40,14 @@ export default function Navbar(props) {
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <button
+              {!isPremium && (<button
                 onClick={() => {
                   dispatch(makePremium());
-                  console.log(isPremium);
                 }}
                 type="button"
-                class="btn btn-primary"
-              >
+                class="btn btn-primary">
                 Activate Premium
-              </button>
+              </button>)}
               <li class="nav-item">
                 <Link class="nav-link" to="/">
                   Home
