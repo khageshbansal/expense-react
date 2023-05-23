@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice ,configureStore} from '@reduxjs/toolkit';
 
-const initialState = {
+const initialExpenseState = {
   expenses: [],
 };
 
 const expenseSlice = createSlice({
   name: 'expenses',
-  initialState,
+  initialState:initialExpenseState,
   reducers: {
     addExpense(state, action) {
       state.expenses.push(action.payload);
@@ -27,5 +27,27 @@ const expenseSlice = createSlice({
   }
 });
 
-export const { addExpense, deleteExpense, updateExpense, setExpenses } = expenseSlice.actions;
-export default expenseSlice.reducer;
+export const { setExpenses } = expenseSlice.actions;
+
+
+
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState:{isPremium:false},
+  reducers: {
+    makePremium(state) {
+      state.isPremium=true;
+    }
+  }
+});
+
+export const { makePremium } = userSlice.actions;
+
+
+
+const store = configureStore({
+  reducer: {expense:expenseSlice.reducer,user:userSlice.reducer}
+});
+
+export default store;

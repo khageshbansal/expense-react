@@ -2,14 +2,18 @@ import React, { useContext } from 'react';
 import { MyContext } from './CartContext';
 import { MyContext as AuthContext } from './AuthContext';
 import { Outlet } from 'react-router-dom';
-import { Link ,useNavigate} from 'react-router-dom';
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { makePremium } from '../redux/reducers';
 
 import CartModal from './CartModal';
 export default function Navbar(props) {
+  let isPremium = useSelector((state) => state.user.isPremium);
+  const dispatch = useDispatch();
 
-  let navigate=useNavigate();
+  console.log(isPremium);
+
+  let navigate = useNavigate();
   let itemObj = useContext(MyContext);
   let itemArray = itemObj.items;
 
@@ -36,6 +40,16 @@ export default function Navbar(props) {
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <button
+                onClick={() => {
+                  dispatch(makePremium());
+                  console.log(isPremium);
+                }}
+                type="button"
+                class="btn btn-primary"
+              >
+                Activate Premium
+              </button>
               <li class="nav-item">
                 <Link class="nav-link" to="/">
                   Home
@@ -95,8 +109,10 @@ export default function Navbar(props) {
                 <button
                   type="button"
                   class="btn btn-primary"
-                  onClick={() => {objAuth.Logout();navigate('/')}
-                  }
+                  onClick={() => {
+                    objAuth.Logout();
+                    navigate('/');
+                  }}
                 >
                   LogOut
                 </button>

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addExpense, deleteExpense, updateExpense, setExpenses } from '../redux/reducers';
-
+import { setExpenses } from '../redux/reducers';
 
 
 function Shop() {
@@ -13,14 +12,8 @@ function Shop() {
 
 
 
-
-
-  let expenses = useSelector(state => state.expenses);
+  let expenses = useSelector(state => state.expense.expenses);
   const dispatch = useDispatch();
-
-
-  
-
 
 
 
@@ -87,6 +80,7 @@ function Shop() {
   }
 
   async function fetchExpenses() {
+   
     try {
       setIsLoading(true);
       const response = await fetch(url);

@@ -18,13 +18,13 @@ import {
 
 
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import store from './redux/reducers';
 
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 export default function App() {
   let authObj = useContext(AuthContext);
-  console.log(authObj);
+  // console.log(authObj);
 
   return (
     <>

@@ -4,7 +4,7 @@ export default function CartContent(props) {
   let itemObj = useContext(MyContext);
   let itemArray = itemObj.items;
 
-  console.log(itemArray)
+  // console.log(itemArray)
   
   return (
   
