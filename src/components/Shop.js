@@ -104,6 +104,50 @@ function Shop() {
     setIsLoading(false);
   }
 
+
+
+
+
+  function downloadExpenses() {
+    // Convert expenses data to CSV format
+    const csvData = convertToCSV(expenses);
+
+    // Create a Blob object with the CSV data
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+
+    // Create a temporary anchor element and set the download attribute
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'expenses.csv';
+
+    // Programmatically trigger the download
+    link.click();
+
+    // Clean up the temporary anchor element
+    URL.revokeObjectURL(link.href);
+  }
+
+  function convertToCSV(data) {
+    const csvHeaders = ['ID', 'Expense Name', 'Expense Amount', 'Category'];
+    const csvRows = data.map(expense => {
+      const id = expense.id.substring(1); // Remove the first character
+      return [id, expense.name, expense.amount, expense.category];
+    });
+  
+    
+    const csvContent = [csvHeaders, ...csvRows]
+      .map(row => row.join(','))
+      .join('\n');
+      
+    return csvContent;
+  }
+  
+  
+
+
+
+
+
   return (
     <div className="container">
       <div className="row">
@@ -157,7 +201,7 @@ function Shop() {
           <h2>Expenses</h2>
 
           {isPremium && (<button
-                onClick={}
+                onClick={downloadExpenses}
                 type="button"
                 class="btn btn-primary">
                 Download Expenses
