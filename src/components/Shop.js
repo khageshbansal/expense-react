@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setExpenses,addExpense, deleteExpense, updateExpense } from '../redux/actions';
+import { addExpense, deleteExpense, updateExpense, setExpenses } from '../redux/reducers';
+
 
 
 function Shop() {

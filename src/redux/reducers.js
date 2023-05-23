@@ -1,36 +1,31 @@
-import { ADD_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE, SET_EXPENSES } from './actions';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   expenses: [],
 };
 
-const expenseReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_EXPENSE:
-      return {
-        ...state,
-        expenses: [...state.expenses, action.payload],
-      };
-    case DELETE_EXPENSE:
-      return {
-        ...state,
-        expenses: state.expenses.filter(expense => expense.id !== action.payload),
-      };
-    case UPDATE_EXPENSE:
-      return {
-        ...state,
-        expenses: state.expenses.map(expense =>
-          expense.id === action.payload.id ? action.payload.expense : expense
-        ),
-      };
-    case SET_EXPENSES:
-      return {
-        ...state,
-        expenses: action.payload,
-      };
-    default:
-      return state;
+const expenseSlice = createSlice({
+  name: 'expenses',
+  initialState,
+  reducers: {
+    addExpense(state, action) {
+      state.expenses.push(action.payload);
+    },
+    deleteExpense(state, action) {
+      state.expenses = state.expenses.filter(expense => expense.id !== action.payload);
+    },
+    setExpenses(state, action) {
+      state.expenses = action.payload;
+    },
+    updateExpense(state, action) {
+      const { id, updatedExpense } = action.payload;
+      const index = state.expenses.findIndex(expense => expense.id === id);
+      if (index !== -1) {
+        state.expenses[index] = updatedExpense;
+      }
+    },
   }
-};
+});
 
-export default expenseReducer;
+export const { addExpense, deleteExpense, updateExpense, setExpenses } = expenseSlice.actions;
+export default expenseSlice.reducer;
