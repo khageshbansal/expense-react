@@ -11,7 +11,7 @@ export default function Navbar(props) {
   let isPremium = useSelector((state) => state.user.isPremium);
   const dispatch = useDispatch();
 
-  console.log(isPremium);
+  // console.log(isPremium);
 
   let navigate = useNavigate();
   let itemObj = useContext(MyContext);

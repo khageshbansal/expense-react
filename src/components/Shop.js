@@ -11,7 +11,7 @@ function Shop() {
   const expenseCategoryRef = useRef();
 
 
-
+  let isPremium = useSelector((state) => state.user.isPremium);
   let expenses = useSelector(state => state.expense.expenses);
   const dispatch = useDispatch();
 
@@ -109,7 +109,7 @@ function Shop() {
       <div className="row">
         <div className="col-md-6">
           <h2>Add Expense</h2>
-          <form onSubmit={addExpense}>
+          <form onSubmit={addExpense} className={isPremium &&"bg-dark text-light p-4"}>
             <div className="mb-3">
               <label htmlFor="expense-name" className="form-label">
                 Expense Name
@@ -155,13 +155,14 @@ function Shop() {
         </div>
         <div className="col-md-6">
           <h2>Expenses</h2>
-          <table className="table">
+          <table className="table" className={isPremium &&"table table-dark"}>
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Expense Name</th>
                 <th scope="col">Expense Amount</th>
                 <th scope="col">Category</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
